@@ -1,0 +1,19 @@
+dmmut61e - UNI-TREND UT61E Digital Multimeter
+---------------------------------------------
+
+Reading UT61 with microcontroller.
+
+# Todo
+
+Test the prototype.
+
+    [x] Get data from multimetar
+    [x] Test sending data over USB serial
+    [ ] Parse data for USB serial
+    [ ] Send parsed data to USB serial
+    [ ] Log unparsed data to SD card
+    [ ] Write parser for computer
+    [ ] Switch to nRF52 to get BLE serial
+    [ ] Make pcb
+    [ ] Make enclosure
+    [ ] 3D print and test

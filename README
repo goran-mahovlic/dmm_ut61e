@@ -3,16 +3,21 @@ dmmut61e - UNI-TREND UT61E Digital Multimeter
 
 Reading UT61 with microcontroller.
 
+Used this libray for SD logging
+https://github.com/elgarbe/STM_OpenLog
+
 # Todo
 
 Test the prototype.
 
     [x] Get data from multimetar
     [x] Test sending data over USB serial
+    [x] Check if data can be parsed by QtDMM
+    [x] Use DMA circular buffer for geting data from meter
+    [o] Log unparsed data to SD card 
     [ ] Parse data for USB serial
     [ ] Send parsed data to USB serial
-    [ ] Log unparsed data to SD card
-    [ ] Write parser for computer
+    [x] Write parser for computer
     [ ] Switch to nRF52 to get BLE serial
     [ ] Make pcb
     [ ] Make enclosure

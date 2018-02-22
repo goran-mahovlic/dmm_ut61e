@@ -34,14 +34,14 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
-#include "main.h"
 
 /* USER CODE BEGIN 0 */
-
+extern volatile uint8_t fIsHalfBufferFull;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_FS;
+extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
 
 /******************************************************************************/
@@ -195,6 +195,20 @@ void SysTick_Handler(void)
 /******************************************************************************/
 
 /**
+* @brief This function handles DMA1 channel5 global interrupt.
+*/
+void DMA1_Channel5_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 0 */
+
+  /* USER CODE END DMA1_Channel5_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_usart1_rx);
+  /* USER CODE BEGIN DMA1_Channel5_IRQn 1 */
+
+  /* USER CODE END DMA1_Channel5_IRQn 1 */
+}
+
+/**
 * @brief This function handles USB low priority or CAN RX0 interrupts.
 */
 void USB_LP_CAN1_RX0_IRQHandler(void)
@@ -221,22 +235,37 @@ void USART1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-/* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-//Interrupt callback routine
+/* USER CODE BEGIN 1 */
+void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
+{
+	fIsHalfBufferFull=1;
+	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+}
+
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    uint8_t i;
-    if (huart->Instance == USART1){  //current UART
-        if (rxIndex==0) {for (i=0;i<100;i++) rxBuffer[i]=0;}   //clear Rx_Buffer before receiving new data
-
-        if (rxData[0]!=0x0a){ //if received data different from hex 0x0A
-            rxBuffer[rxIndex++]=rxData[0];    //add data to Rx_Buffer
-            }
-        else{      //if received data is hex 0x0A
-            rxIndex=0;
-            meterDataReady=1;//transfer complete, data is ready to read
-            }
-        HAL_UART_Receive_IT(&huart1, rxData, 1);   //activate UART receive interrupt every time
-        }
+	fIsHalfBufferFull=0;
+	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
 }
+
+
+
+//Interrupt callback routine
+//void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+//{
+//    uint8_t i;
+//    if (huart->Instance == USART1){  //current UART
+//        if (rxIndex==0) {for (i=0;i<100;i++) rxBuffer[i]=0;}   //clear Rx_Buffer before receiving new data
+//
+//        if (rxData[0]!=0x0a){ //if received data different from hex 0x0A
+//            rxBuffer[rxIndex++]=rxData[0];    //add data to Rx_Buffer
+//            }
+//        else{      //if received data is hex 0x0A
+//            rxIndex=0;
+//            meterDataReady=1;//transfer complete, data is ready to read
+//            }
+//        HAL_UART_Receive_IT(&huart1, rxData, 1);   //activate UART receive interrupt every time
+//        }
+//}
+/* USER CODE END 1 */
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -1,3 +1,4 @@
 dmmut61e - UNI-TREND UT61E Digital Multimeter
 ---------------------------------------------
-Just reading meter and sending data to USB serial
+Using DMA circular buffer to receive data from meter
+Log data to SD card

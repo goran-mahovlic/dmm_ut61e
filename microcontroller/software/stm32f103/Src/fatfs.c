@@ -52,20 +52,22 @@ FATFS FatFs;    /* File system object for User logical drive */
 FIL   Fil;    /* File object */
 uint32_t wbytes;  /* File write counts */
 //uint8_t wtext[] = "text to write logical disk by elgarbe"; /* File write buffer */
-extern uint8_t rxBuff[512];
+extern uint8_t rxBuff[14];
 //extern void Error_Handler(void);
 
 /* USER CODE END Variables */    
 
 void MX_FATFS_Init(void) 
 {
+  HAL_Delay(5000);
+  //CDC_Transmit_FS("FATFS_Init\n\r",12);
       /*## FatFS: Link the USER driver ###########################*/
       retUSER = FATFS_LinkDriver(&USER_Driver, USER_Path);
 
   /* USER CODE BEGIN Init */
   uint16_t lastLog=0;
   UINT bw;        // bytes escritos
-  uint8_t dummyWrite = '\n';
+  //uint8_t dummyWrite = '\n';
   if(retUSER == 0)
   {
     if(f_mount(&FatFs, (TCHAR const*)USER_Path, 0) == FR_OK)
@@ -73,9 +75,10 @@ void MX_FATFS_Init(void)
       // Busco el último LOG en la SD y creo el archivo para loguear
       lastLog = fs_get_last_log("/");
       fs_CreateLOG(lastLog + 1);
+      //CDC_Transmit_FS("Init",4);
       // First write to the File is too slow. And when I'm working at more than 115200bps uSD loose first bytes.
       // So I'made a dummy write of a CR character. Nexts writing will be at full speed.
-      f_write(&Fil, &dummyWrite, 1, &bw);
+      //f_write(&Fil, &dummyWrite, 1, &bw);
 //      f_lseek(&Fil, 0);
     }else{
       Error_Handler();
@@ -110,44 +113,67 @@ FRESULT fs_CreateLOG(uint16_t numLOG)
   NomLOG[5] = numLOG/10 + 48;
   numLOG -= (numLOG/10)*10;
   NomLOG[6] = numLOG/1 + 48;
+
   rc = f_open(&Fil, (const char *)NomLOG, FA_WRITE | FA_CREATE_ALWAYS);
+  //CDC_Transmit_FS("\n\r",2);
+  //CDC_Transmit_FS("\n\r",2);
   if(rc == FR_OK)
   {
     f_sync(&Fil);
+    CDC_Transmit_FS(NomLOG,11);
+    CDC_Transmit_FS(" File created\r\n",15);
+  }
+  else{
+    CDC_Transmit_FS("File opening failed\r\n",19);
   }
   return rc;
 }
 
-FRESULT fs_WriteFile(uint8_t f_TipoEscritura)
+FRESULT fs_WriteFile(void)
 {
-  FRESULT rc;       // Result code
-  UINT bw;        // bytes escritos
 
-  // Verifico si debo escrivir SD_WR_BUFF_SIZE
-  if(f_TipoEscritura == 1)
-  {
+UINT bw;        // bytes escritos
+FRESULT rc;       // Result code
+
+//CDC_Transmit_FS(Fil,14);
+
+rc = f_write(&Fil, rxBuffer, 14, &bw);
+CDC_Transmit_FS(rxBuffer,14);
+CDC_Transmit_FS("\r\n",2);
+rc = f_sync(&Fil);
+
+return rc;
+
+
+//  FRESULT rc;       // Result code
+//  UINT bw;        // bytes escritos
+
+//  // Verifico si debo escrivir SD_WR_BUFF_SIZE
+//  if(f_TipoEscritura == 1)
+//  {
     // Intento escrivir los datos que hay en sd_write_buf. bw guarda la cantidad de bytes escritos
-    rc = f_write(&Fil, rxBuff, SD_WR_BUFF_SIZE, &bw);
-  }else // o si son los ultimos bytes que había en el buffer
-  {
-    // Intento escrivir los datos que hay en sd_write_buf. bw guarda la cantidad de bytes escritos
-    rc = f_write(&Fil, &rxBuff[512], SD_WR_BUFF_SIZE, &bw);
-  }
+//    rc = f_write(&Fil, rxBuff, SD_WR_BUFF_SIZE, &bw);
+//    CDC_Transmit_FS(rxBuff,14);
+//  }else // o si son los ultimos bytes que había en el buffer
+//  {
+//    // Intento escrivir los datos que hay en sd_write_buf. bw guarda la cantidad de bytes escritos
+//    rc = f_write(&Fil, &rxBuff[14], SD_WR_BUFF_SIZE, &bw);
+//  }
 
   // Verifico que se hallan escrito tantos bytes como WR_BUFF_SIZE.
   // No sé si es muy útil esta verificacion. Quizás sirva para detectar la última escritura
   // que puede no ser de WR_BUFF_SIZE bytes y cerrar el archivo. Pero si es justo de WR_BUFF_SIZE bytes?
-  if(bw == SD_WR_BUFF_SIZE)
-  {
+//  if(bw == SD_WR_BUFF_SIZE)
+//  {
     // Me aseguro de que se almacene en la SD todos los datos.
-    rc = f_sync(&Fil);
-    return rc;
-  }else
-  {
+//    rc = f_sync(&Fil);
+//    return rc;
+//  }else
+//  {
     // escribí menos bytes que WR_BUFF_SIZE. Deve ser que son los ultimos bytes que había en el RB
 //    rc = f_close(&Fil);
-    return 0;
-  }
+ //   return 0;
+//  }
 }
 
 /* Fusco el mayor de los LOGxxxx.TXT */

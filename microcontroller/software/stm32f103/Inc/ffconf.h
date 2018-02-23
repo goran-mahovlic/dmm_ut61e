@@ -2,8 +2,13 @@
   ******************************************************************************
   *  FatFs - FAT file system module configuration file  R0.11 (C)ChaN, 2015
   ******************************************************************************
+  * This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
-  * Copyright (c) 2017 STMicroelectronics International N.V. 
+  * Copyright (c) 2018 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -46,7 +51,6 @@
 /*-----------------------------------------------------------------------------/
 / Additional user header to be used  
 /-----------------------------------------------------------------------------*/
-
 #include "stm32f1xx_hal.h"
 
 /*-----------------------------------------------------------------------------/
@@ -105,7 +109,7 @@
 / Locale and Namespace Configurations
 /-----------------------------------------------------------------------------*/
 
-#define _CODE_PAGE         1252
+#define _CODE_PAGE         850
 /* This option specifies the OEM code page to be used on the target system.
 /  Incorrect setting of the code page can cause a file open failure.
 /
@@ -137,7 +141,7 @@
 /   1    - ASCII (No extended character. Valid for only non-LFN configuration.) */
 
 #define _USE_LFN     0    /* 0 to 3 */
-#define _MAX_LFN     255  /* Maximum LFN length to handle (12 to 255) */
+#define _MAX_LFN     255    /* Maximum LFN length to handle (12 to 255) */
 /* The _USE_LFN option switches the LFN feature.
 /
 /   0: Disable LFN feature. _MAX_LFN has no effect.

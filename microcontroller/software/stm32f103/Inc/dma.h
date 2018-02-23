@@ -1,10 +1,16 @@
 /**
   ******************************************************************************
-  * @file   fatfs.h
-  * @brief  Header for fatfs applications
+  * File Name          : dma.h
+  * Description        : This file contains all the function prototypes for
+  *                      the dma.c file
   ******************************************************************************
+  * This notice applies to any and all portions of this file
+  * that are not between comment pairs USER CODE BEGIN and
+  * USER CODE END. Other portions of this file, whether 
+  * inserted by the user or by software development tools
+  * are owned by their respective copyright owners.
   *
-  * Copyright (c) 2017 STMicroelectronics International N.V. 
+  * Copyright (c) 2018 STMicroelectronics International N.V. 
   * All rights reserved.
   *
   * Redistribution and use in source and binary forms, with or without 
@@ -40,40 +46,43 @@
   *
   ******************************************************************************
   */
-
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __fatfs_H
-#define __fatfs_H
+#ifndef __dma_H
+#define __dma_H
+
 #ifdef __cplusplus
  extern "C" {
 #endif
 
-#include "ff.h"
-#include "ff_gen_drv.h"
-#include "user_diskio.h" /* defines USER_Driver as external */
+/* Includes ------------------------------------------------------------------*/
+#include "stm32f1xx_hal.h"
+#include "main.h"
+
+/* DMA memory to memory transfer handles -------------------------------------*/
+extern void _Error_Handler(char*, int);
 
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
 
-extern uint8_t retUSER; /* Return value for USER */
-extern char USER_Path[4]; /* USER logical drive path */
+/* USER CODE BEGIN Private defines */
 
-void MX_FATFS_Init(void);
+/* USER CODE END Private defines */
+
+void MX_DMA_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
-FRESULT fs_WriteFile(uint8_t f_TipoEscritura);
-
-FRESULT fs_CreateLOG(uint16_t numLOG);
-uint16_t fs_get_last_log (char* path);
-
-#define UART_RB_SIZE 14
-#define SD_WR_BUFF_SIZE (14)
 /* USER CODE END Prototypes */
+
 #ifdef __cplusplus
 }
 #endif
-#endif /*__fatfs_H */
+
+#endif /* __dma_H */
+
+/**
+  * @}
+  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

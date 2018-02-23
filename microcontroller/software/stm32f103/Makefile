@@ -32,6 +32,7 @@ OPT = -Og
 SOURCES_DIR =  \
 Middlewares \
 Application/User/Src/usbd_conf.c \
+Application/User/Src/dma.c \
 Application/User/Src/usb_device.c \
 Middlewares/FatFs \
 Application/User/Src/usbd_desc.c \
@@ -88,6 +89,7 @@ Middlewares/Third_Party/FatFs/src/ff.c \
 Src/usbd_desc.c \
 Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_gpio.c \
+Src/dma.c \
 Src/usb_device.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.c \
 Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_spi_ex.c \

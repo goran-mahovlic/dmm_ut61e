@@ -48,11 +48,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "dma.h"
 #include "fatfs.h"
 #include "spi.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
+
 
 /* USER CODE BEGIN Includes */
 
@@ -71,7 +73,8 @@ static void MX_NVIC_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
+uint8_t rxBuff[UART_RB_SIZE];
+volatile uint8_t fIsHalfBufferFull=0;
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -107,6 +110,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USB_DEVICE_Init();
   MX_USART1_UART_Init();
   MX_SPI1_Init();
@@ -115,7 +119,7 @@ int main(void)
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_IT(&huart1, rxData, 1);
+  HAL_UART_Receive_DMA(&huart1, rxBuff, UART_RB_SIZE);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -126,12 +130,18 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-  if (meterDataReady==1){
-	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
-	meterDataReady=0;
-	//CDC_Transmit_FS(rxBuffer,14);
-	fs_WriteFile();
-  }
+//  if (meterDataReady==1){
+//	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+//	meterDataReady=0;
+
+   	while(fIsHalfBufferFull == 0);	// Me quedo esperando a que la bandera sea distinta de 0
+	fs_WriteFile(1);
+	CDC_Transmit_FS("Data saved",10);
+
+	while(fIsHalfBufferFull == 1);	// Me quedo esperando a que la bandera sea distinta de 0
+	fs_WriteFile(0);
+//	CDC_Transmit_FS(rxBuffer,14);
+//  }
   }
   /* USER CODE END 3 */
 

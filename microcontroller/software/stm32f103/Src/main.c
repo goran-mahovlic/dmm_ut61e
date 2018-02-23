@@ -48,13 +48,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
-#include "dma.h"
-#include "fatfs.h"
-#include "spi.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
-
+#include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -73,8 +70,7 @@ static void MX_NVIC_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-uint8_t rxBuff[UART_RB_SIZE];
-volatile uint8_t fIsHalfBufferFull=0;
+
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
@@ -110,16 +106,13 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_DMA_Init();
   MX_USB_DEVICE_Init();
   MX_USART1_UART_Init();
-  MX_SPI1_Init();
-  MX_FATFS_Init();
-
+  HAL_UART_Receive_IT(&huart1, rxData, 1);
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-  HAL_UART_Receive_DMA(&huart1, rxBuff, UART_RB_SIZE);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -130,18 +123,11 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-//  if (meterDataReady==1){
-//	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
-//	meterDataReady=0;
-
-   	while(fIsHalfBufferFull == 0);	// Me quedo esperando a que la bandera sea distinta de 0
-	fs_WriteFile(1);
-	CDC_Transmit_FS("Data saved",10);
-
-	while(fIsHalfBufferFull == 1);	// Me quedo esperando a que la bandera sea distinta de 0
-	fs_WriteFile(0);
-//	CDC_Transmit_FS(rxBuffer,14);
-//  }
+  if (meterDataReady==1){
+	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+	meterDataReady=0;
+	CDC_Transmit_FS(rxBuffer,14);
+  }
   }
   /* USER CODE END 3 */
 
@@ -212,6 +198,17 @@ void SystemClock_Config(void)
 static void MX_NVIC_Init(void)
 {
   /* USART1_IRQn interrupt configuration */
+
+  //USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+  //USART_Cmd(USART1, ENABLE);
+
+  //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+  //NVIC_InitTypeDef NVIC_InitStructure;
+  //NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+  //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+  //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+  //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
+  //NVIC_Init(&NVIC_InitStructure);
   HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USART1_IRQn);
 }

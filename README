@@ -18,3 +18,7 @@ Test the prototype.
     [ ] Make pcb
     [ ] Make enclosure
     [ ] 3D print and test
+
+![Current setup](pics/UNI-T61E.JPG)
+![Log to and from SD](pics/GotLoGFromSD.png)
+![Got data from SD when I press button](pics/GotFirstGraph.png)

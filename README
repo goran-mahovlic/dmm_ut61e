@@ -19,6 +19,6 @@ Test the prototype.
     [ ] Make enclosure
     [ ] 3D print and test
 
-![Current setup](pics/UNI-T61E.JPG)
-![Log to and from SD](pics/GotLoGFromSD.png)
-![Got data from SD when I press button](pics/GotFirstGraph.png)
+![Current setup](https://github.com/goran-mahovlic/dmm_ut61e/blob/master/pics/UNI-T61E.JPG)
+![Log to and from SD](https://github.com/goran-mahovlic/dmm_ut61e/blob/master/pics/GotLoGFromSD.png)
+![Got data from SD when I press button](https://github.com/goran-mahovlic/dmm_ut61e/blob/master/pics/GotFirstGraph.png)

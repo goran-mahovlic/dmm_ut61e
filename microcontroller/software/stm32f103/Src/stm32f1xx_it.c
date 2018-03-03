@@ -34,7 +34,6 @@
 #include "stm32f1xx_hal.h"
 #include "stm32f1xx.h"
 #include "stm32f1xx_it.h"
-#include "main.h"
 
 /* USER CODE BEGIN 0 */
 
@@ -221,8 +220,6 @@ void USART1_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
-/* USER CODE END 1 */
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 //Interrupt callback routine
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
@@ -240,3 +237,6 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
         HAL_UART_Receive_IT(&huart1, rxData, 1);   //activate UART receive interrupt every time
         }
 }
+
+/* USER CODE END 1 */
+/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

@@ -48,10 +48,11 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "fatfs.h"
+#include "spi.h"
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
-#include "usbd_cdc_if.h"
 
 /* USER CODE BEGIN Includes */
 
@@ -108,11 +109,13 @@ int main(void)
   MX_GPIO_Init();
   MX_USB_DEVICE_Init();
   MX_USART1_UART_Init();
-  HAL_UART_Receive_IT(&huart1, rxData, 1);
+  MX_SPI1_Init();
+  MX_FATFS_Init();
+
   /* Initialize interrupts */
   MX_NVIC_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_UART_Receive_IT(&huart1, rxData, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,11 +126,27 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
+  //If we have received data
   if (meterDataReady==1){
+	//Toggle LED on bluepill
 	HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_13);
+	//Write data to current file on SD
+	fs_WriteFile();
+	//Reset meter data
 	meterDataReady=0;
-	CDC_Transmit_FS(rxBuffer,14);
   }
+
+  //Check if button is pressed
+  if (!HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0)){
+	//Read current file and send data to USB
+        readLastFile();
+	//Delay a bit
+        HAL_Delay(1000);
+	//Open new file
+        MX_FATFS_Init();
+  }
+
+
   }
   /* USER CODE END 3 */
 
@@ -198,17 +217,6 @@ void SystemClock_Config(void)
 static void MX_NVIC_Init(void)
 {
   /* USART1_IRQn interrupt configuration */
-
-  //USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
-  //USART_Cmd(USART1, ENABLE);
-
-  //NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-  //NVIC_InitTypeDef NVIC_InitStructure;
-  //NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
-  //NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
-  //NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
-  //NVIC_InitStructure.NVIC_IRQChannelSubPriority = 0;
-  //NVIC_Init(&NVIC_InitStructure);
   HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
   HAL_NVIC_EnableIRQ(USART1_IRQn);
 }

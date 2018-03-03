@@ -59,6 +59,9 @@
 
 /* Private define ------------------------------------------------------------*/
 
+#define SPI1_CS_Pin GPIO_PIN_4
+#define SPI1_CS_GPIO_Port GPIOA
+
 /* ########################## Assert Selection ############################## */
 /**
   * @brief Uncomment the line below to expanse the "assert_param" macro in the 
@@ -68,6 +71,7 @@
 
 /* USER CODE BEGIN Private defines */
 extern char rxBuffer[100], meterDataReady, rxData[2];
+extern int readCounter;
 /* USER CODE END Private defines */
 
 #ifdef __cplusplus

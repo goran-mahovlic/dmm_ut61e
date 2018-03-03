@@ -58,8 +58,12 @@ void PendSV_Handler(void);
 void SysTick_Handler(void);
 void USB_LP_CAN1_RX0_IRQHandler(void);
 void USART1_IRQHandler(void);
+
+/* USER CODE BEGIN 0 */
 char rxBuffer[100], meterDataReady, rxData[2];
 char rxIndex;
+/* USER CODE END 0 */
+
 #ifdef __cplusplus
 }
 #endif

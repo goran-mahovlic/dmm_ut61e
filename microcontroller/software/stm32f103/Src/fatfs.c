@@ -175,8 +175,9 @@ for (;;) {
 	buffer[12]= '\n';
 	buffer[13]= '\r';
 	CDC_Transmit_FS(buffer,14);
+	HAL_Delay(100);
 }
-
+f_close(&Fil);
 return rc;
 }
 

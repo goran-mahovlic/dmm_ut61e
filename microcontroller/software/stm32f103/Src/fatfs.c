@@ -42,6 +42,9 @@
   */
 
 #include "fatfs.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 uint8_t retUSER;    /* Return value for USER */
 char USER_Path[4];  /* USER logical drive path */
@@ -108,13 +111,17 @@ DWORD get_fattime(void)
 /* USER CODE BEGIN Application */
 void parse(uint8_t* pStr)
 {
-  uint8_t val[10];
-  uint8_t special[2];
-  uint8_t unit[3]; 
+  char val[10]={0};
+  uint8_t special[3]={0};
+  uint8_t unit[3]={0};
   double multp = 1;
-  uint8_t dataToPrint[40];
+  char dataToPrint[40]={0};
   CDC_Transmit_FS("Parse!!\n\r",9);
+        HAL_Delay(10);
+  CDC_Transmit_FS("Value: ",7);
+        HAL_Delay(10);
   CDC_Transmit_FS(pStr,14);
+        HAL_Delay(10);
 
   switch (pStr[0])
   {
@@ -165,7 +172,7 @@ void parse(uint8_t* pStr)
 			multp = 10000;
 			break;
 		default:
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		}
 		break;
 
@@ -196,7 +203,7 @@ void parse(uint8_t* pStr)
 			multp = 10000;
 			break;
 		default:
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		break;
 		}
 	case '5':
@@ -233,7 +240,7 @@ void parse(uint8_t* pStr)
 			multp = 0.00001;
 			break;
 		default:
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		}
 		break;
 
@@ -256,7 +263,7 @@ void parse(uint8_t* pStr)
 			multp = 0.00001;
 			break;
 		default:
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		}
 		break;
 
@@ -265,7 +272,7 @@ void parse(uint8_t* pStr)
 		if (pStr[0] == '0')
 			multp = 0.001;
 		else {
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		}
 		break;
 
@@ -280,7 +287,7 @@ void parse(uint8_t* pStr)
 			multp = 0.0000001;
 			break;
 		default:
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		}
 
 		break;
@@ -295,12 +302,12 @@ void parse(uint8_t* pStr)
 			multp = 0.00001;
 			break;
 		default:
-			CDC_Transmit_FS("Error\r\n",7);
+			CDC_Transmit_FS("Error\n\r",7);
 		}
 
 		break;
 	default:
-		CDC_Transmit_FS("Error\r\n",7);
+		CDC_Transmit_FS("Error\n\r",7);
 	}
 
 
@@ -324,8 +331,8 @@ void parse(uint8_t* pStr)
   }
 
   d_val = d_val * multp;
-  sprintf(dataToPrint,"Val: %s;d_val: %d;unit: %s;special: %s\r\n",val,d_val,unit, special);
-  CDC_Transmit_FS(dataToPrint,sizeof(dataToPrint));
+  uint8_t dataToPrintSize = sprintf(dataToPrint,"Val: %s;d_val: %f;unit: %s;special: %s\r\n",val,d_val,unit, special);
+  CDC_Transmit_FS(dataToPrint,dataToPrintSize);
 }
 
 
@@ -401,8 +408,19 @@ for (;;) {
 	f_gets(buffer,14,&Fil);
 	buffer[12]= '\n';
 	buffer[13]= '\r';
-	CDC_Transmit_FS(buffer,14);
-	//parse(buffer);
+  	CDC_Transmit_FS("Before parse!!\n\r",16);
+        HAL_Delay(10);
+  	CDC_Transmit_FS("Address: ",9);
+	HAL_Delay(10);
+  	CDC_Transmit_FS(&buffer,14);
+        HAL_Delay(10);
+  	CDC_Transmit_FS("\n\r",2);
+        HAL_Delay(10);
+ 	CDC_Transmit_FS("Value: ",7);
+        HAL_Delay(10);
+  	CDC_Transmit_FS(buffer,14);
+        HAL_Delay(10);
+	parse(buffer);
 	HAL_Delay(100);
 }
 f_close(&Fil);

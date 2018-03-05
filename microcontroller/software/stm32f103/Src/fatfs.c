@@ -45,6 +45,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 uint8_t retUSER;    /* Return value for USER */
 char USER_Path[4];  /* USER logical drive path */
@@ -111,11 +112,13 @@ DWORD get_fattime(void)
 /* USER CODE BEGIN Application */
 void parse(uint8_t* pStr)
 {
-  char val[10]={0};
+  char val[5];
   uint8_t special[3]={0};
   uint8_t unit[3]={0};
-  double multp = 1;
+  float multp = 1;
   char dataToPrint[40]={0};
+  int value = 0;
+  float d_val;
   CDC_Transmit_FS("Parse!!\n\r",9);
         HAL_Delay(10);
   CDC_Transmit_FS("Value: ",7);
@@ -123,19 +126,40 @@ void parse(uint8_t* pStr)
   CDC_Transmit_FS(pStr,14);
         HAL_Delay(10);
 
+  val[0] = pStr[1];
+  val[1] = pStr[2];
+  val[2] = pStr[3];
+  val[3] = pStr[4];
+  val[4] = pStr[5];
+
+  CDC_Transmit_FS(val,5);
+  HAL_Delay(10);
+
+  value = atoi(val);
+
+  CDC_Transmit_FS(val,5);
+  HAL_Delay(10);
+  uint8_t dataToPrintSize = sprintf(dataToPrint,"Value: %i\r\n",value);
+  CDC_Transmit_FS(dataToPrint,dataToPrintSize);
+
+
   switch (pStr[0])
   {
     case 0x30:
-      val[1] = ',';
+      d_val = (float)value / 1000;
+      //val[1] = ',';
       break;
     case 0x31:
-      val[2] = ',';
+      d_val = (float)value / 100;
+      //val[2] = ',';
       break;
     case 0x32:
-      val[3] = ',';
+      //val[3] = ',';
+      d_val = (float)value / 10;
       break;
     case 0x34:
-      val[4] = ',';
+      //val[4] = ',';
+      //d_val = value * 0.1;
       break;
     // default case is no comma/decimal point at all.
   }
@@ -324,14 +348,14 @@ void parse(uint8_t* pStr)
   }
   //printf("\n\r");
 
- double d_val = atof(val);
+// float d_val = atof(val);
 
   if(pStr[7] & 0x04){
-        d_val = d_val * -1;
+        //d_val = d_val * -1;
   }
 
-  d_val = d_val * multp;
-  uint8_t dataToPrintSize = sprintf(dataToPrint,"Val: %s;d_val: %f;unit: %s;special: %s\r\n",val,d_val,unit, special);
+  //d_val = d_val * multp;
+  dataToPrintSize = sprintf(dataToPrint,"Val: %i;d_val: %f;Mult: %f;unit: %s;special: %s\r\n",value,d_val,multp,unit, special);
   CDC_Transmit_FS(dataToPrint,dataToPrintSize);
 }
 
@@ -409,12 +433,6 @@ for (;;) {
 	buffer[12]= '\n';
 	buffer[13]= '\r';
   	CDC_Transmit_FS("Before parse!!\n\r",16);
-        HAL_Delay(10);
-  	CDC_Transmit_FS("Address: ",9);
-	HAL_Delay(10);
-  	CDC_Transmit_FS(&buffer,14);
-        HAL_Delay(10);
-  	CDC_Transmit_FS("\n\r",2);
         HAL_Delay(10);
  	CDC_Transmit_FS("Value: ",7);
         HAL_Delay(10);

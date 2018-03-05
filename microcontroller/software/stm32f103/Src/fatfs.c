@@ -45,6 +45,7 @@
 
 uint8_t retUSER;    /* Return value for USER */
 char USER_Path[4];  /* USER logical drive path */
+BYTE buffer[14];   /* File copy buffer */
 
 /* USER CODE BEGIN Variables */
 
@@ -105,8 +106,234 @@ DWORD get_fattime(void)
 }
 
 /* USER CODE BEGIN Application */
+void parse(uint8_t* pStr)
+{
+  uint8_t val[10];
+  uint8_t special[2];
+  uint8_t unit[3]; 
+  double multp = 1;
+  uint8_t dataToPrint[40];
+  CDC_Transmit_FS("Parse!!\n\r",9);
+  CDC_Transmit_FS(pStr,14);
+
+  switch (pStr[0])
+  {
+    case 0x30:
+      val[1] = ',';
+      break;
+    case 0x31:
+      val[2] = ',';
+      break;
+    case 0x32:
+      val[3] = ',';
+      break;
+    case 0x34:
+      val[4] = ',';
+      break;
+    // default case is no comma/decimal point at all.
+  }
+
+	switch (pStr[6]) {
+	case '1':
+		unit[0] = 'D';
+		unit[1] = 'I';
+		break;
+
+	case '2':
+		unit[0] = 'H';
+                unit[1] = 'z';
+		switch (pStr[0]) {
+		case '0':
+			multp = 0.01;
+			break;
+		case '1':
+			multp = 0.1;
+			break;
+		case '3':
+			multp = 1;
+			break;
+		case '4':
+			multp = 10;
+			break;
+		case '5':
+			multp = 100;
+			break;
+		case '6':
+			multp = 1000;
+			break;
+		case '7':
+			multp = 10000;
+			break;
+		default:
+			CDC_Transmit_FS("Error\r\n",7);
+		}
+		break;
+
+	case '3':
+                unit[0] = 'O';
+                unit[1] = 'h';
+                unit[2] = 'm';
+		switch (pStr[0]) {
+		case '0':
+			multp = 0.01;
+			break;
+		case '1':
+			multp = 0.1;
+			break;
+		case '2':
+			multp = 1;
+			break;
+		case '3':
+			multp = 10;
+			break;
+		case '4':
+			multp = 100;
+			break;
+		case '5':
+			multp = 1000;
+			break;
+		case '6':
+			multp = 10000;
+			break;
+		default:
+			CDC_Transmit_FS("Error\r\n",7);
+		break;
+		}
+	case '5':
+		unit[0] = 'O';
+                unit[1] = 'h';
+                unit[2] = 'm';
+		break;
+
+	case '6':
+		unit[0] = 'F';
+		switch (pStr[0]) {
+		case '0':
+			multp = 0.12;
+			break;
+		case '1':
+			multp = 0.11;
+			break;
+		case '2':
+			multp = 0.10;
+			break;
+		case '3':
+			multp = 0.000000001;
+			break;
+		case '4':
+			multp = 0.00000001;
+			break;
+		case '5':
+			multp = 0.0000001;
+			break;
+		case '6':
+			multp = 0.000001;
+			break;
+		case '7':
+			multp = 0.00001;
+			break;
+		default:
+			CDC_Transmit_FS("Error\r\n",7);
+		}
+		break;
+
+	case 0x3b: 
+		unit[0] = 'V';
+		switch (pStr[0]) {
+		case '0':
+			multp = 0.0001;
+			break;
+		case '1':
+			multp = 0.001;
+			break;
+		case '2':
+			multp = 0.01;
+			break;
+		case '3':
+			multp = 0.1;
+			break;
+		case '4':
+			multp = 0.00001;
+			break;
+		default:
+			CDC_Transmit_FS("Error\r\n",7);
+		}
+		break;
+
+	case '0': // A
+		unit[0] = 'A';
+		if (pStr[0] == '0')
+			multp = 0.001;
+		else {
+			CDC_Transmit_FS("Error\r\n",7);
+		}
+		break;
+
+	case 0x3d: // uA
+                unit[0] = 'u';
+                unit[1] = 'A';
+		switch (pStr[0]) {
+		case '0':
+			multp = 0.00000001;
+			break;
+		case '1':
+			multp = 0.0000001;
+			break;
+		default:
+			CDC_Transmit_FS("Error\r\n",7);
+		}
+
+		break;
+	case 0x3f: // mA
+		unit[0] = 'm';
+		unit[1] = 'A';
+		switch (pStr[0]) {
+		case '0':
+			multp = 0.000001;
+			break;
+		case '1':
+			multp = 0.00001;
+			break;
+		default:
+			CDC_Transmit_FS("Error\r\n",7);
+		}
+
+		break;
+	default:
+		CDC_Transmit_FS("Error\r\n",7);
+	}
+
+
+
+  switch (pStr[6]) {
+	}
+  if (pStr[10] & 8){
+	special[0] = 'D';
+	special[1] = 'C';
+  }
+  else if (pStr[10] & 4){
+        special[0] = 'A';
+        special[1] = 'C';
+  }
+  //printf("\n\r");
+
+ double d_val = atof(val);
+
+  if(pStr[7] & 0x04){
+        d_val = d_val * -1;
+  }
+
+  d_val = d_val * multp;
+  sprintf(dataToPrint,"Val: %s;d_val: %d;unit: %s;special: %s\r\n",val,d_val,unit, special);
+  CDC_Transmit_FS(dataToPrint,sizeof(dataToPrint));
+}
+
+
+
+
 FRESULT fs_CreateLOG(uint16_t numLOG)
 {
+
   FRESULT rc;       /* Result code */
   uint8_t NomLOG[11]="LOGxxxx.TXT";
   NomLOG[3] = numLOG/1000 + 48;
@@ -140,7 +367,7 @@ void readLastFile(void){
 
 FRESULT fs_ReadFile (uint16_t numLOG){
 
-  BYTE buffer[14];   /* File copy buffer */
+  uint8_t buffer[14];   /* File copy buffer */
    // FRESULT fr;          /* FatFs function common result code */
   UINT br;         /* File read/write count */
   FRESULT rc;       /* Result code */
@@ -175,6 +402,7 @@ for (;;) {
 	buffer[12]= '\n';
 	buffer[13]= '\r';
 	CDC_Transmit_FS(buffer,14);
+	//parse(buffer);
 	HAL_Delay(100);
 }
 f_close(&Fil);
@@ -184,7 +412,7 @@ return rc;
 
 FRESULT fs_WriteFile(void)
 {
-
+BYTE buffer[14];   /* File copy buffer */
 UINT bw;        // bytes escritos
 FRESULT rc;       // Result code
 

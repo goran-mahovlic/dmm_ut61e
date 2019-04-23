@@ -1,6 +1,36 @@
-EESchema Schematic File Version 4
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:device
+LIBS:transistors
+LIBS:conn
+LIBS:linear
+LIBS:regul
+LIBS:74xx
+LIBS:cmos4000
+LIBS:adc-dac
+LIBS:memory
+LIBS:xilinx
+LIBS:microcontrollers
+LIBS:dsp
+LIBS:microchip
+LIBS:analog_switches
+LIBS:motorola
+LIBS:texas
+LIBS:intel
+LIBS:audio
+LIBS:interface
+LIBS:digital-audio
+LIBS:philips
+LIBS:display
+LIBS:cypress
+LIBS:siliconi
+LIBS:opto
+LIBS:atmel
+LIBS:contrib
+LIBS:valves
+LIBS:stm32
 LIBS:stm32Logger-cache
-EELAYER 29 0
+EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -15,7 +45,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L stm32Logger-rescue:STM32F103C8Tx U?
+L STM32F103C8Tx U?
 U 1 1 5A9B258F
 P 5500 3300
 F 0 "U?" H 2700 5025 50  0000 L BNN
@@ -26,7 +56,7 @@ F 3 "" H 5500 3300 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L stm32Logger-rescue:Micro_SD_Card CON?
+L Micro_SD_Card CON?
 U 1 1 5A9B2629
 P 3750 6250
 F 0 "CON?" H 3100 6850 50  0000 C CNN
@@ -37,7 +67,7 @@ F 3 "" H 3750 6250 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L stm32Logger-rescue:74HC14 U?
+L 74HC14 U?
 U 1 1 5A9B2904
 P 1400 6900
 F 0 "U?" H 1550 7000 50  0000 C CNN
@@ -48,7 +78,7 @@ F 3 "" H 1400 6900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L stm32Logger-rescue:74HC14 U?
+L 74HC14 U?
 U 2 1 5A9B295D
 P 2300 7200
 F 0 "U?" H 2450 7300 50  0000 C CNN
@@ -59,7 +89,7 @@ F 3 "" H 2300 7200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:LED D?
+L LED D?
 U 1 1 5A9B29C9
 P 4050 1200
 F 0 "D?" H 4050 1300 50  0000 C CNN
@@ -70,7 +100,7 @@ F 3 "" H 4050 1200 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9B2A26
 P 3600 1200
 F 0 "R?" V 3680 1200 50  0000 C CNN
@@ -81,7 +111,7 @@ F 3 "" H 3600 1200 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L device1:Crystal Y?
+L Crystal Y?
 U 1 1 5A9B2ADF
 P 9450 1650
 F 0 "Y?" H 9450 1800 50  0000 C CNN
@@ -92,7 +122,7 @@ F 3 "" H 9450 1650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:Crystal Y?
+L Crystal Y?
 U 1 1 5A9B2B10
 P 10450 1650
 F 0 "Y?" H 10450 1800 50  0000 C CNN
@@ -103,7 +133,7 @@ F 3 "" H 10450 1650 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L stm32Logger-rescue:CONN_01X04 P?
+L CONN_01X04 P?
 U 1 1 5A9B2BD7
 P 10600 4100
 F 0 "P?" H 10600 4350 50  0000 C CNN
@@ -122,7 +152,7 @@ GND
 Text GLabel 10300 3400 1    60   Input ~ 0
 VCC
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9B2DDF
 P 10350 4500
 F 0 "R?" V 10430 4500 50  0000 C CNN
@@ -133,7 +163,7 @@ F 3 "" H 10350 4500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9B3029
 P 10300 3650
 F 0 "R?" V 10380 3650 50  0000 C CNN
@@ -150,9 +180,9 @@ Wire Wire Line
 Wire Wire Line
 	10200 3950 10400 3950
 Wire Wire Line
-	9800 4050 10350 4050
+	9800 4050 10400 4050
 Wire Wire Line
-	9800 4150 10300 4150
+	9800 4150 10400 4150
 Wire Wire Line
 	10350 4650 10350 4750
 Wire Wire Line
@@ -174,7 +204,7 @@ Wire Wire Line
 Wire Wire Line
 	8400 4600 8600 4600
 $Comp
-L stm32Logger-rescue:USB_OTG P?
+L USB_OTG P?
 U 1 1 5A9B3C7F
 P 10400 5500
 F 0 "P?" H 10725 5375 50  0000 C CNN
@@ -187,7 +217,7 @@ $EndComp
 Text GLabel 10000 5850 3    60   Input ~ 0
 GND
 Wire Wire Line
-	10000 5600 10000 5700
+	10000 5600 10000 5850
 Wire Wire Line
 	10000 5700 10100 5700
 Wire Wire Line
@@ -200,7 +230,7 @@ Wire Wire Line
 Wire Wire Line
 	10000 5300 10100 5300
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9B4705
 P 9850 5400
 F 0 "R?" V 9750 5400 50  0000 C CNN
@@ -211,7 +241,7 @@ F 3 "" H 9850 5400 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9B4769
 P 9650 5500
 F 0 "R?" V 9730 5500 50  0000 C CNN
@@ -224,9 +254,9 @@ $EndComp
 Wire Wire Line
 	10000 5400 10100 5400
 Wire Wire Line
-	9800 5500 9900 5500
+	9800 5500 10100 5500
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9B4B34
 P 9650 5650
 F 0 "R?" V 9730 5650 50  0000 C CNN
@@ -262,7 +292,7 @@ D+
 Wire Wire Line
 	8400 4400 8600 4400
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9B60B3
 P 6300 5900
 F 0 "C?" H 6325 6000 50  0000 L CNN
@@ -273,7 +303,7 @@ F 3 "" H 6300 5900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9B610C
 P 6550 5900
 F 0 "C?" H 6575 6000 50  0000 L CNN
@@ -284,7 +314,7 @@ F 3 "" H 6550 5900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9B6159
 P 6800 5900
 F 0 "C?" H 6825 6000 50  0000 L CNN
@@ -295,7 +325,7 @@ F 3 "" H 6800 5900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9B61A7
 P 7050 5900
 F 0 "C?" H 7075 6000 50  0000 L CNN
@@ -306,7 +336,7 @@ F 3 "" H 7050 5900 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9B6200
 P 7300 5900
 F 0 "C?" H 7325 6000 50  0000 L CNN
@@ -319,9 +349,9 @@ $EndComp
 Wire Wire Line
 	6300 5750 6300 5550
 Wire Wire Line
-	6300 5550 6550 5550
+	6300 5550 7300 5550
 Wire Wire Line
-	6800 5400 6800 5550
+	6800 5400 6800 5750
 Wire Wire Line
 	7300 5550 7300 5750
 Connection ~ 6800 5550
@@ -334,11 +364,11 @@ Connection ~ 7050 5550
 Wire Wire Line
 	6300 6050 6300 6250
 Wire Wire Line
-	6300 6250 6550 6250
+	6300 6250 7300 6250
 Wire Wire Line
 	6550 6250 6550 6050
 Wire Wire Line
-	6800 6050 6800 6250
+	6800 6050 6800 6400
 Connection ~ 6550 6250
 Wire Wire Line
 	7050 6250 7050 6050
@@ -401,7 +431,7 @@ MeterSerial
 Wire Wire Line
 	8400 4200 8600 4200
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9BE553
 P 9150 1400
 F 0 "C?" H 9175 1500 50  0000 L CNN
@@ -412,7 +442,7 @@ F 3 "" H 9150 1400 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9BE6DD
 P 9800 1400
 F 0 "C?" H 9825 1500 50  0000 L CNN
@@ -423,7 +453,7 @@ F 3 "" H 9800 1400 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9BE793
 P 10800 1400
 F 0 "C?" H 10825 1500 50  0000 L CNN
@@ -438,11 +468,11 @@ Wire Wire Line
 Wire Wire Line
 	9600 1650 9800 1650
 Wire Wire Line
-	9150 1550 9150 1650
+	9150 1550 9150 1900
 Wire Wire Line
-	9800 1550 9800 1650
+	9800 1550 9800 1900
 $Comp
-L device1:C C?
+L C C?
 U 1 1 5A9BF993
 P 10150 1400
 F 0 "C?" H 10175 1500 50  0000 L CNN
@@ -453,19 +483,19 @@ F 3 "" H 10150 1400 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	10150 1550 10150 1650
+	10150 1550 10150 1900
 Wire Wire Line
 	10150 1650 10300 1650
 Wire Wire Line
 	10600 1650 10800 1650
 Wire Wire Line
-	10800 1550 10800 1650
+	10800 1550 10800 1900
 Text GLabel 10000 950  1    60   Input ~ 0
 GND
 Wire Wire Line
 	9150 1250 9150 1000
 Wire Wire Line
-	9150 1000 9800 1000
+	9150 1000 10800 1000
 Wire Wire Line
 	9800 1000 9800 1250
 Wire Wire Line
@@ -490,7 +520,7 @@ OSC_OUT
 Connection ~ 10150 1650
 Connection ~ 10800 1650
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9C217D
 P 10450 1900
 F 0 "R?" V 10530 1900 50  0000 C CNN
@@ -543,7 +573,7 @@ Wire Wire Line
 Wire Wire Line
 	2300 3300 2600 3300
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5A9C7842
 P 800 6700
 F 0 "R?" V 880 6700 50  0000 C CNN
@@ -554,29 +584,29 @@ F 3 "" H 800 6700 50  0000 C CNN
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	5400 5350 5400 5200
+	5400 5350 5400 5100
 Wire Wire Line
 	5500 5200 5500 5100
 Wire Wire Line
-	5300 5200 5400 5200
+	5300 5200 5600 5200
 Connection ~ 5400 5200
 Wire Wire Line
 	5300 5100 5300 5200
 Text GLabel 5400 1200 1    60   Input ~ 0
 VCC
 Wire Wire Line
-	5400 1200 5400 1300
+	5400 1200 5400 1500
 Wire Wire Line
 	5300 1500 5300 1300
 Wire Wire Line
-	5300 1300 5400 1300
+	5300 1300 5600 1300
 Connection ~ 5400 1300
 Wire Wire Line
 	5500 1300 5500 1500
 Text GLabel 800  6450 1    60   Input ~ 0
 VCC
 $Comp
-L device1:D_Photo D?
+L D_Photo D?
 U 1 1 5A9D8FFF
 P 800 7050
 F 0 "D?" H 820 7120 50  0000 L CNN
@@ -591,7 +621,7 @@ MeterSerial
 Wire Wire Line
 	800  6450 800  6550
 Wire Wire Line
-	800  6850 800  6900
+	800  6850 800  6950
 Wire Wire Line
 	800  7250 800  7450
 Connection ~ 800  6900
@@ -604,7 +634,7 @@ Wire Wire Line
 Wire Wire Line
 	2750 7200 3000 7200
 $Comp
-L device1:Battery_Cell BT?
+L Battery_Cell BT?
 U 1 1 5A9EF7FE
 P 900 1300
 F 0 "BT?" H 1000 1400 50  0000 L CNN
@@ -623,7 +653,7 @@ GND
 Wire Wire Line
 	900  1400 900  1550
 $Comp
-L power1:GND #PWR?
+L GND #PWR?
 U 1 1 5A9F0782
 P 2350 750
 F 0 "#PWR?" H 2350 500 50  0001 C CNN
@@ -636,7 +666,7 @@ $EndComp
 Text GLabel 2600 750  2    60   Input ~ 0
 GND
 $Comp
-L power1:+3.3V #PWR?
+L +3.3V #PWR?
 U 1 1 5A9F27C4
 P 2350 600
 F 0 "#PWR?" H 2350 450 50  0001 C CNN
@@ -671,7 +701,7 @@ BOOT1
 Wire Wire Line
 	2300 3400 2600 3400
 $Comp
-L stm32Logger-rescue:CONN_02X03 P?
+L CONN_02X03 P?
 U 1 1 5A9FA6CE
 P 1100 3950
 F 0 "P?" H 1100 4150 50  0000 C CNN
@@ -706,7 +736,7 @@ VCC
 Wire Wire Line
 	1200 4300 1200 4200
 $Comp
-L stm32Logger-rescue:CONN_01X04 P?
+L CONN_01X04 P?
 U 1 1 5AA035FD
 P 1850 3850
 F 0 "P?" H 1850 4100 50  0000 C CNN
@@ -737,7 +767,7 @@ Wire Wire Line
 Wire Wire Line
 	2150 4000 2050 4000
 $Comp
-L stm32Logger-rescue:CONN_01X02 P?
+L CONN_01X02 P?
 U 1 1 5AA0AD53
 P 7650 950
 F 0 "P?" H 7650 1100 50  0000 C CNN
@@ -756,7 +786,7 @@ Wire Wire Line
 Wire Wire Line
 	7250 1000 7450 1000
 $Comp
-L stm32Logger-rescue:AP111733 U?
+L AP111733 U?
 U 1 1 5AA0E88C
 P 9650 2800
 F 0 "U?" H 9750 2550 50  0000 C CNN
@@ -775,7 +805,7 @@ GND
 Wire Wire Line
 	9650 3100 9650 3200
 $Comp
-L stm32Logger-rescue:CONN_01X02 P?
+L CONN_01X02 P?
 U 1 1 5AA1033C
 P 10200 3000
 F 0 "P?" H 10200 3150 50  0000 C CNN
@@ -794,7 +824,7 @@ Wire Wire Line
 Text GLabel 3300 950  0    60   Input ~ 0
 LED2
 $Comp
-L device1:R R?
+L R R?
 U 1 1 5AA18564
 P 3600 950
 F 0 "R?" V 3680 950 50  0000 C CNN
@@ -805,7 +835,7 @@ F 3 "" H 3600 950 50  0000 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L device1:LED D?
+L LED D?
 U 1 1 5AA185E0
 P 4050 950
 F 0 "D?" H 4050 1050 50  0000 C CNN
@@ -835,91 +865,4 @@ Wire Wire Line
 	2350 4350 2350 4100
 Wire Wire Line
 	2350 4100 2600 4100
-Wire Wire Line
-	10350 4050 10400 4050
-Wire Wire Line
-	10300 4150 10400 4150
-Wire Wire Line
-	10000 5700 10000 5850
-Wire Wire Line
-	9900 5500 10100 5500
-Wire Wire Line
-	6800 5550 7050 5550
-Wire Wire Line
-	6800 5550 6800 5750
-Wire Wire Line
-	6550 5550 6800 5550
-Wire Wire Line
-	7050 5550 7300 5550
-Wire Wire Line
-	6550 6250 6800 6250
-Wire Wire Line
-	6800 6250 6800 6400
-Wire Wire Line
-	6800 6250 7050 6250
-Wire Wire Line
-	7050 6250 7300 6250
-Wire Wire Line
-	10150 1000 10800 1000
-Wire Wire Line
-	9800 1000 10000 1000
-Wire Wire Line
-	10000 1000 10150 1000
-Wire Wire Line
-	9800 1650 9800 1900
-Wire Wire Line
-	9150 1650 9150 1900
-Wire Wire Line
-	10150 1650 10150 1750
-Wire Wire Line
-	10800 1650 10800 1750
-Wire Wire Line
-	10150 1750 10150 1900
-Wire Wire Line
-	10800 1750 10800 1900
-Wire Wire Line
-	5400 5200 5400 5100
-Wire Wire Line
-	5400 5200 5500 5200
-Wire Wire Line
-	5400 1300 5400 1500
-Wire Wire Line
-	5400 1300 5500 1300
-Wire Wire Line
-	800  6900 800  6950
-Wire Wire Line
-	5500 5200 5600 5200
-Wire Wire Line
-	5500 1300 5600 1300
-Text GLabel 8550 3500 2    50   Input ~ 0
-Serial2RX
-Wire Wire Line
-	8400 3500 8550 3500
-$Comp
-L stm32Logger-rescue:CONN_01X04 P?
-U 1 1 5CC0C9D3
-P 8650 6100
-F 0 "P?" H 8650 6350 50  0000 C CNN
-F 1 "CONN_01X04" V 8750 6100 50  0000 C CNN
-F 2 "" H 8650 6100 50  0000 C CNN
-F 3 "" H 8650 6100 50  0000 C CNN
-	1    8650 6100
-	1    0    0    -1  
-$EndComp
-Text GLabel 8350 5950 0    60   Input ~ 0
-VCC
-Text GLabel 8350 6250 0    60   Input ~ 0
-GND
-Text GLabel 8350 6150 0    60   Input ~ 0
-MeterSerial
-Text GLabel 8350 6050 0    50   Input ~ 0
-Serial2RX
-Wire Wire Line
-	8350 5950 8450 5950
-Wire Wire Line
-	8350 6050 8450 6050
-Wire Wire Line
-	8350 6150 8450 6150
-Wire Wire Line
-	8350 6250 8450 6250
 $EndSCHEMATC

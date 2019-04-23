@@ -1,0 +1,8 @@
+(sym_lib_table
+  (lib (name stm32Logger-rescue)(type Legacy)(uri ${KIPRJMOD}/stm32Logger-rescue.lib)(options "")(descr ""))
+  (lib (name power1)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/power.lib)(options "")(descr ""))
+  (lib (name device1)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/device.lib)(options "")(descr ""))
+  (lib (name 74xx1)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/74xx.lib)(options "")(descr ""))
+  (lib (name audio1)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/audio.lib)(options "")(descr ""))
+  (lib (name interface1)(type Legacy)(uri ${KICAD_SYMBOL_DIR}/interface.lib)(options "")(descr ""))
+)
